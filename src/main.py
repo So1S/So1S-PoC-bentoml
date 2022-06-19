@@ -7,7 +7,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 @bentoml.env(pip_packages=["transformers==4.11.0", "torch==1.7.0"])
 @bentoml.artifacts([TransformersModelArtifact("transformer")])
-class TransformerService(bentoml.BentoService):
+class So1sService(bentoml.BentoService):
 
     LABELS = {
         0: "부정",
@@ -37,11 +37,13 @@ class TransformerService(bentoml.BentoService):
 
 
 if __name__ == "__main__":
-    ts = TransformerService()
+    ts = So1sService()
 
     model_name = "monologg/koelectra-small-finetuned-nsmc"
-    model = AutoModelForSequenceClassification.from_pretrained("monologg/koelectra-small-finetuned-nsmc")
-    tokenizer = AutoTokenizer.from_pretrained("monologg/koelectra-small-finetuned-nsmc")
+    model = AutoModelForSequenceClassification.from_pretrained(
+        "monologg/koelectra-small-finetuned-nsmc")
+    tokenizer = AutoTokenizer.from_pretrained(
+        "monologg/koelectra-small-finetuned-nsmc")
     artifact = {"model": model, "tokenizer": tokenizer}
 
     ts.pack("transformer", artifact)
